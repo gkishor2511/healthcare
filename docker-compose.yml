@@ -1,0 +1,8 @@
+services:
+  healthcare-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python app/app.py
+    ports:
+      - "5000:5000"

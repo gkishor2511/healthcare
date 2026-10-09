@@ -1,0 +1,54 @@
+name: Healthcare QA Automation
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          playwright install --with-deps chromium
+
+      - name: Start demo application
+        run: |
+          nohup python app/app.py > app.log 2>&1 &
+          sleep 3
+
+      - name: Lint
+        run: |
+          pip install black flake8 isort
+          black --check .
+          isort --check-only .
+          flake8 src tests app
+
+      - name: Run API and UI tests
+        run: |
+          mkdir -p reports
+          pytest -m "api or ui" --html=reports/report.html --self-contained-html
+
+      - name: Run BDD
+        run: behave
+
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-reports
+          path: |
+            reports/
+            logs/
+            screenshots/
+            app.log

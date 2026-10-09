@@ -1,0 +1,17 @@
+CREATE DATABASE IF NOT EXISTS healthcare;
+USE healthcare;
+
+CREATE TABLE IF NOT EXISTS patients (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(150) UNIQUE NOT NULL,
+    doctor VARCHAR(100)
+);
+
+CREATE TABLE IF NOT EXISTS appointments (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    patient_id INT NOT NULL,
+    doctor_id INT NOT NULL,
+    appointment_date DATE NOT NULL,
+    status VARCHAR(30) DEFAULT 'BOOKED'
+);

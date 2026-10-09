@@ -1,0 +1,13 @@
+flask==3.1.2
+pytest==8.4.2
+selenium==4.35.0
+playwright==1.55.0
+requests==2.32.5
+pymysql==1.1.2
+pytest-html==4.1.1
+pytest-xdist==3.8.0
+python-dotenv==1.1.1
+pyyaml==6.0.3
+jsonschema==4.25.1
+behave==1.2.6
+faker==37.8.0
